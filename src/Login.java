@@ -26,31 +26,50 @@ public class Login extends JFrame {
                 String usuario = usuarioField.getText();
                 String contrasena = new String(passwordField1.getPassword());
                 String rolSeleccionado = comboBox1.getSelectedItem().toString();
+                ResultSet rs = null;
+                PreparedStatement stmt = null;
+
                 try(Connection conn = Conexion.getConnection()){
-                    PreparedStatement stmt = conn.prepareStatement(
+                    stmt = conn.prepareStatement(
                     "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ? AND rol = ?");
 
                     stmt.setString(1,usuario);
                     stmt.setString(2,contrasena);
                     stmt.setString(3, rolSeleccionado);
-                    ResultSet rs =stmt.executeQuery();
+
+                    rs = stmt.executeQuery();
+
                     if (rs.next()){
                         String rol = rs.getString("rol");
                         JOptionPane.showMessageDialog(null,"Bienvenidos al "+ rol);
-                        if (rol.equalsIgnoreCase("Estudiantes")){
-                              new Estudiantes().setVisible(true);
+
+                        if (rol.equalsIgnoreCase("estudiante")){
+                            int estudianteId = rs.getInt("estudiante_id");
+                              new Estudiantes(estudianteId).setVisible(true);
                             dispose();
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Rol no autorizado :( ");
                         }
                     }else {
                         JOptionPane.showMessageDialog(null,"Usuario y contraseña incorrecta :(");
                     }
                 }catch (SQLException ex){
-                    JOptionPane.showMessageDialog(null,"Error en la conexión");
+                    JOptionPane.showMessageDialog(null,"Error en la conexión"+ ex.getMessage());
+                } finally {
+                    try{
+                        if (rs != null) rs.close();
+                        if (stmt != null) stmt.close();
+                    }catch (SQLException ex){
+                        ex.printStackTrace();
+                    }
+
                 }
 
             }
         });
 
     }
+
+
 }
 
