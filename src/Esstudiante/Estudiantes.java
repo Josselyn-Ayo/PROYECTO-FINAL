@@ -8,6 +8,7 @@ public class Estudiantes extends  JFrame {
     private JButton CALIFICACIONESButton;
     private JButton CERTIFICADOButton;
     private JPanel EstudiaPanel;
+    private JButton MATRICULASButton;
     private int estudianteId;
 
     public Estudiantes(int estudianteId) {
@@ -32,6 +33,14 @@ public class Estudiantes extends  JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Certificado(estudianteId).setVisible(true);
+                dispose();
+
+            }
+        });
+        MATRICULASButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Matriculas(estudianteId).setVisible(true);
                 dispose();
 
             }
