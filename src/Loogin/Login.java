@@ -1,4 +1,7 @@
+package Loogin;
+
 import Esstudiante.Estudiantes;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +44,7 @@ public class Login extends JFrame {
 
                     if (rs.next()){
                         String rol = rs.getString("rol");
-                        JOptionPane.showMessageDialog(null,"Bienvenidos al "+ rol);
+                        JOptionPane.showMessageDialog(null,"Bienvenidos  "+ rol);
 
                         if (rol.equalsIgnoreCase("estudiante")){
                             int estudianteId = rs.getInt("estudiante_id");
